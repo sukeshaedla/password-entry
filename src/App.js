@@ -31,6 +31,7 @@ export default function App() {
             id='password'
             type={"password"}
             name='password'
+            data-testid={"password"}
             aria-invalid={errors.password ? "true" : "false"}
             {...register("password", {
               required: "Password is required.",
@@ -51,11 +52,14 @@ export default function App() {
             </p>
           )}
 
-          <label>Repeat password</label>
+          <label htmlFor='password_repeat'>Repeat Password</label>
           <input
-            name='password_confirm'
-            type={"Confirm password"}
-            {...register("password_confirm", {
+            id='password_repeat'
+            name='password_repeat'
+            type={"Repeat Password"}
+            data-testid={"password_repeat"}
+            aria-invalid={errors.password ? "true" : "false"}
+            {...register("password_repeat", {
               validate: (value) =>
                 value === password.current || "The passwords do not match",
             })}
