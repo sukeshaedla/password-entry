@@ -1,5 +1,5 @@
 import { useForm } from "react-hook-form";
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import "./App.css";
 
 export default function App() {
@@ -14,11 +14,18 @@ export default function App() {
   const password = useRef({});
   password.current = watch("password", "");
 
+  const [passwordShown, setPasswordShown] = useState(false);
+
+  // const onSubmit = (data) => console.log(data);
   const onSubmit = (data, e) => {
     e.preventDefault();
     console.log(data);
     alert(`Thank you. You account has been created`);
     reset();
+  };
+
+  const togglePassword = () => {
+    setPasswordShown(!passwordShown);
   };
 
   return (
@@ -29,7 +36,7 @@ export default function App() {
           <label htmlFor='password'>Password</label>
           <input
             id='password'
-            type={"password"}
+            type={passwordShown ? "text" : "password"}
             name='password'
             aria-invalid={errors.password ? "true" : "false"}
             {...register("password", {
@@ -54,13 +61,17 @@ export default function App() {
           <label>Repeat password</label>
           <input
             name='password_confirm'
-            type={"Confirm password"}
+            type={passwordShown ? "text" : "password"}
             {...register("password_confirm", {
               validate: (value) =>
                 value === password.current || "The passwords do not match",
             })}
           />
           {errors.password_repeat && <p>{errors.password_repeat.message}</p>}
+
+          <div className='showHide' onClick={togglePassword}>
+            {passwordShown ? "Hide password" : "Show password"}
+          </div>
         </div>
         <div className='form-control'>
           <label></label>
